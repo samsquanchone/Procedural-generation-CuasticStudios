@@ -19,6 +19,7 @@ public class Wave {
 public class Biome {
   public string name;
   public Color color;
+  public int index;
 }
 [System.Serializable]
 public class BiomeRow {
@@ -81,18 +82,15 @@ public class TileGeneration : MonoBehaviour
         private Wave[] moistureWaves;
       
     
-      void Awake()
-      {
-       noiseMapGeneration = GetComponent<ProceduralGeneration>();
-      }
+     
     
-      void Start() {
-  GenerateTile (10000, 10000);
+      /*void Awake() {
+ // GenerateTile (10000, 10000);
       }
-      
+     */
      
       
-     public void GenerateTile(float centerVertexZ, float maxDistanceZ) {
+     public TileData GenerateTile(float centerVertexZ, float maxDistanceZ) {
           // calculate tile depth and width based on the mesh vertices
           Vector3[] meshVertices = this.meshFilter.mesh.vertices;
           int tileDepth = (int)Mathf.Sqrt (meshVertices.Length);
@@ -141,8 +139,9 @@ public class TileGeneration : MonoBehaviour
           TerrainType[,] chosenMoistureTerrainTypes = new TerrainType[tileDepth, tileWidth];
           Texture2D moistureTexture = BuildTexture (moistureMap, this.moistureTerrainTypes, chosenMoistureTerrainTypes);
           
-          
-         Texture2D biomeTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes);
+          // build a biomes Texture2D from the three other noise variables
+          Biome[,] chosenBiomes = new Biome[tileDepth, tileWidth];
+          Texture2D biomeTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
           
           //Used for assinging material to respective visulization mode choice
           switch (this.visualizationMode) {
@@ -167,12 +166,18 @@ public class TileGeneration : MonoBehaviour
           }
           // update the tile mesh vertices according to the height map
                    UpdateMeshVertices (heightMap);
+                   
+                   TileData tileData = new TileData (heightMap, heatMap, moistureMap,
+                       chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes,
+                       this.meshFilter.mesh) /*(Texture2D)this.tileRenderer.material.mainTexture)*/;
+
+                   return tileData;
                  }
                
           
            enum VisualizationMode {Height, Heat, Moisture, Biome}  //Declaring enum for visualisation selection
           
-          private Texture2D BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes) {
+          private Texture2D BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes) {
             int tileDepth = heatTerrainTypes.GetLength (0);
             int tileWidth = heatTerrainTypes.GetLength (1);
             Color[] colorMap = new Color[tileDepth * tileWidth];
@@ -191,6 +196,9 @@ public class TileGeneration : MonoBehaviour
                   Biome biome = this.biomes [moistureTerrainType.index].biomes [heatTerrainType.index];
                   // assign the color according to the selected biome
                   colorMap [colorIndex] = biome.color;
+                  
+                  // save biome in chosenBiomes matrix only when it is not water
+                  chosenBiomes [zIndex, xIndex] = biome;
                 } else {
                   // water regions don't have biomes, they always have the same color
                   colorMap [colorIndex] = this.waterColor;
@@ -267,4 +275,29 @@ public class TileGeneration : MonoBehaviour
               // update the mesh collider
               this.meshCollider.sharedMesh = this.meshFilter.mesh;
     }
+}
+
+public class TileData {
+  public float[,]  heightMap;
+  public float[,]  heatMap;
+  public float[,]  moistureMap;
+  public TerrainType[,] chosenHeightTerrainTypes;
+  public TerrainType[,] chosenHeatTerrainTypes;
+  public TerrainType[,] chosenMoistureTerrainTypes;
+  public Biome[,] chosenBiomes;
+  public Mesh mesh;
+ // public Texture2D texture;
+  
+  public TileData(float[,]  heightMap, float[,]  heatMap, float[,]  moistureMap,
+    TerrainType[,] chosenHeightTerrainTypes, TerrainType[,] chosenHeatTerrainTypes, TerrainType[,] chosenMoistureTerrainTypes,
+    Biome[,] chosenBiomes, Mesh mesh /*, Texture2D texture*/) {
+    this.heightMap = heightMap;
+    this.heatMap = heatMap;
+    this.moistureMap = moistureMap;
+    this.chosenHeightTerrainTypes = chosenHeightTerrainTypes;
+    this.chosenHeatTerrainTypes = chosenHeatTerrainTypes;
+    this.chosenMoistureTerrainTypes = chosenMoistureTerrainTypes;
+    this.chosenBiomes = chosenBiomes;
+    this.mesh = mesh;
+  }
 }

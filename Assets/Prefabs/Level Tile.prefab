@@ -128,39 +128,55 @@ MonoBehaviour:
   - biomes:
     - name: Desert
       color: {r: 0.9716981, g: 0.17224802, b: 0, a: 0}
+      index: 0
     - name: Grassland
       color: {r: 0, g: 0.972549, b: 0.092280425, a: 0}
+      index: 0
     - name: Tundra
       color: {r: 0.69166076, g: 0.9339623, b: 0.9339623, a: 0}
+      index: 0
     - name: Tundra
       color: {r: 0.96724814, g: 0.97989917, b: 0.9811321, a: 0}
+      index: 0
   - biomes:
     - name: Savanna
       color: {r: 0.8392532, g: 0.9622642, b: 0.06808472, a: 0}
+      index: 0
     - name: Savanna
       color: {r: 0.8478597, g: 0.9811321, b: 0.16197933, a: 0}
+      index: 0
     - name: Borealforest
       color: {r: 0.35390607, g: 0.5188679, b: 0.24719651, a: 0}
+      index: 0
     - name: Tundra
       color: {r: 0.63372195, g: 0.9528302, b: 0.8800786, a: 0}
+      index: 0
   - biomes:
     - name: Tropicalrainforest
       color: {r: 0.11660211, g: 0.23584908, b: 0.09233714, a: 0}
+      index: 0
     - name: Borealforest
       color: {r: 0.3218227, g: 0.6037736, b: 0.3256349, a: 0}
+      index: 0
     - name: Borealforest
       color: {r: 0.28324133, g: 0.6320754, b: 0.40884978, a: 0}
+      index: 0
     - name: Tundra
       color: {r: 0.56817377, g: 0.9056604, b: 0.8690823, a: 0}
+      index: 0
   - biomes:
     - name: Tropicalrainforest
       color: {r: 0.08664116, g: 0.31132078, b: 0.14205298, a: 0}
+      index: 0
     - name: TropicalrainForest
       color: {r: 0.08414915, g: 0.2924528, b: 0.1605544, a: 0}
+      index: 0
     - name: Tundra
       color: {r: 0.62473303, g: 0.9528302, b: 0.8912841, a: 0}
+      index: 0
     - name: Tundra
       color: {r: 0.6759523, g: 0.9245283, b: 0.8698216, a: 0}
+      index: 0
   heightTerrainTypes:
   - name: water
     threshold: 0.25
@@ -199,8 +215,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.003712181
-      value: 0.10615498
+      time: 0.0039471034
+      value: 0.14069355
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -208,8 +224,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.33080363
-      value: 0.14585915
+      time: 0.07173991
+      value: 0.16508523
       inSlope: 0.8828052
       outSlope: 0.8828052
       tangentMode: 0
@@ -233,14 +249,14 @@ MonoBehaviour:
   tileRenderer: {fileID: 4615044572830286184}
   meshFilter: {fileID: 4615044572830286185}
   meshCollider: {fileID: 4615044572830286191}
-  mapScale: 20
-  heightMultiplier: 40
+  mapScale: 10
+  heightMultiplier: 30
   heightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: -0.00334212
-      value: 0.013549566
+      value: 0.108947515
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -248,8 +264,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.40351832
-      value: 0.040284738
+      time: 0.39900172
+      value: 0.086824045
       inSlope: 0.21207227
       outSlope: 0.21207227
       tangentMode: 0
@@ -300,8 +316,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0.008143733
-      value: 0.29498905
+      time: 0.006938289
+      value: 0.22507328
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -309,8 +325,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.39830017
-      value: 0.30237803
+      time: 0.40193176
+      value: 0.21363291
       inSlope: -0.0051448047
       outSlope: -0.0051448047
       tangentMode: 0
@@ -318,8 +334,8 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.6808194
-      value: 0.45983028
+      time: 0.6023282
+      value: 0.3244543
       inSlope: 0.442039
       outSlope: 0.442039
       tangentMode: 0
