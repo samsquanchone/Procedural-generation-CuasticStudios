@@ -15,6 +15,10 @@ public class LevelGeneration : MonoBehaviour
      [SerializeField]
      private TreeGeneration treeGeneration;
      
+     [SerializeField]
+     private RiverGeneration riverGeneration;
+
+     
      
      
      void Start() {
@@ -59,6 +63,9 @@ public class LevelGeneration : MonoBehaviour
        }
        // generate trees for the level
        treeGeneration.GenerateTrees (this.mapDepthInTiles * tileDepthInVertices, this.mapWidthInTiles * tileWidthInVertices, distanceBetweenVertices, levelData);
+       
+       // generate rivers for the level
+       riverGeneration.GenerateRivers(this.mapDepthInTiles * tileDepthInVertices, this.mapWidthInTiles * tileWidthInVertices, levelData);
      }
 }
 

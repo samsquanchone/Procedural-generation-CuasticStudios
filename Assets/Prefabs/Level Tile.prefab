@@ -179,21 +179,17 @@ MonoBehaviour:
       index: 0
   heightTerrainTypes:
   - name: water
-    threshold: 0.25
+    threshold: 0.4
     color: {r: 0.023529433, g: 0.1344357, b: 0.99215686, a: 0}
     index: 0
-  - name: Low
-    threshold: 0.5
+  - name: grass
+    threshold: 0.7
     color: {r: 0.036033817, g: 0.98039216, b: 0.031372555, a: 0}
     index: 1
-  - name: High
-    threshold: 0.75
+  - name: mountain
+    threshold: 1
     color: {r: 0.01568625, g: 0.9825954, b: 0.99215686, a: 0}
     index: 2
-  - name: Highest
-    threshold: 1
-    color: {r: 0.9254902, g: 0.13142556, b: 0.054901984, a: 0}
-    index: 3
   heatTerrainTypes:
   - name: Hottest
     threshold: 0.25
@@ -249,14 +245,14 @@ MonoBehaviour:
   tileRenderer: {fileID: 4615044572830286184}
   meshFilter: {fileID: 4615044572830286185}
   meshCollider: {fileID: 4615044572830286191}
-  mapScale: 10
-  heightMultiplier: 30
+  mapScale: 5
+  heightMultiplier: 20
   heightCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.00334212
-      value: 0.108947515
+      time: -0.001804797
+      value: 0.051330328
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -264,8 +260,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.39900172
-      value: 0.086824045
+      time: 0.41749537
+      value: 0.055696115
       inSlope: 0.21207227
       outSlope: 0.21207227
       tangentMode: 0

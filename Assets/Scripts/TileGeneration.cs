@@ -169,7 +169,7 @@ public class TileGeneration : MonoBehaviour
                    
                    TileData tileData = new TileData (heightMap, heatMap, moistureMap,
                        chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes,
-                       this.meshFilter.mesh) /*(Texture2D)this.tileRenderer.material.mainTexture)*/;
+                       this.meshFilter.mesh, (Texture2D)this.tileRenderer.material.mainTexture);
 
                    return tileData;
                  }
@@ -286,11 +286,11 @@ public class TileData {
   public TerrainType[,] chosenMoistureTerrainTypes;
   public Biome[,] chosenBiomes;
   public Mesh mesh;
- // public Texture2D texture;
+  public Texture2D texture;
   
   public TileData(float[,]  heightMap, float[,]  heatMap, float[,]  moistureMap,
     TerrainType[,] chosenHeightTerrainTypes, TerrainType[,] chosenHeatTerrainTypes, TerrainType[,] chosenMoistureTerrainTypes,
-    Biome[,] chosenBiomes, Mesh mesh /*, Texture2D texture*/) {
+    Biome[,] chosenBiomes, Mesh mesh, Texture2D texture) {
     this.heightMap = heightMap;
     this.heatMap = heatMap;
     this.moistureMap = moistureMap;
@@ -299,5 +299,6 @@ public class TileData {
     this.chosenMoistureTerrainTypes = chosenMoistureTerrainTypes;
     this.chosenBiomes = chosenBiomes;
     this.mesh = mesh;
+    this.texture = texture;
   }
 }

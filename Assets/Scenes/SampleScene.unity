@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 1300168044}
   - component: {fileID: 1300168047}
   - component: {fileID: 1300168046}
+  - component: {fileID: 1300168048}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -330,12 +331,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ac94273cd8be422bb653c4f3e4b1392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidthInTiles: 50
-  mapDepthInTiles: 50
+  mapWidthInTiles: 20
+  mapDepthInTiles: 20
   tilePrefab: {fileID: 4615044572830286190, guid: 7d75268bdd1c64339ace1846f46d13be, type: 3}
-  centerVertexZ: 300
-  maxDistanceZ: 300
+  centerVertexZ: 100
+  maxDistanceZ: 100
   treeGeneration: {fileID: 1300168047}
+  riverGeneration: {fileID: 1300168048}
 --- !u!4 &1300168045
 Transform:
   m_ObjectHideFlags: 0
@@ -387,7 +389,7 @@ MonoBehaviour:
   - seed: 8722
     frequency: 4
     amplitude: 4
-  levelScale: 50
+  levelScale: 10
   neighborRadius:
   - 3
   - 2
@@ -396,6 +398,21 @@ MonoBehaviour:
   - {fileID: 2705432601452562814, guid: 3f2c0d5dc4065467ca40ed35cc12ebf7, type: 3}
   - {fileID: 6396539258283640857, guid: 10ce99ec7fbda4146b169eff6580a9b7, type: 3}
   - {fileID: 6801983206234468980, guid: d1f3f3edb42254c509b2040c461cbe4b, type: 3}
+--- !u!114 &1300168048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1300168043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069360c9f478b4f798fbc7c58249c6ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfRivers: 3
+  heightThreshold: 0.6
+  riverColor: {r: 0.0786757, g: 0.58347523, b: 0.9811321, a: 0}
 --- !u!1 &1611594920
 GameObject:
   m_ObjectHideFlags: 0
