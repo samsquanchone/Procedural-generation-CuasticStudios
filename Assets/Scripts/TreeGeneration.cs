@@ -69,7 +69,7 @@ public class TreeGeneration : MonoBehaviour {
 					if (treeValue == maxValue) {
 						Vector3 treePosition = new Vector3(xIndex*distanceBetweenVertices, meshVertices[vertexIndex].y, zIndex*distanceBetweenVertices);
 						GameObject tree = Instantiate (this.treePrefab[biome.index], treePosition, Quaternion.identity) as GameObject;
-						tree.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
+						//tree.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
 					}
 				}
 			}
