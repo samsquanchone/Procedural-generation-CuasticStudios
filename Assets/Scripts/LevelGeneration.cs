@@ -18,6 +18,9 @@ public class LevelGeneration : MonoBehaviour {
 
 	[SerializeField]
 	private RiverGeneration riverGeneration;
+    
+    [SerializeField]
+    private OreGeneration oreGeneration;
 
 	void Start() {
 		GenerateMap ();
@@ -59,6 +62,9 @@ public class LevelGeneration : MonoBehaviour {
 
 		// generate rivers for the level
 		riverGeneration.GenerateRivers(this.levelDepthInTiles * tileDepthInVertices, this.levelWidthInTiles * tileWidthInVertices, levelData);
+        
+        //generate ore for the level
+        oreGeneration.GenerateOre(this.levelDepthInTiles * tileDepthInVertices, this.levelWidthInTiles * tileWidthInVertices, distanceBetweenVertices, levelData);
 	}
 }
 

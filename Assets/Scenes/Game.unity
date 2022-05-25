@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 314008091}
   - component: {fileID: 314008092}
   - component: {fileID: 314008093}
+  - component: {fileID: 314008094}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -155,13 +156,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4469953c6d8d694fafca44a0ff4dafc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelWidthInTiles: 10
-  levelDepthInTiles: 10
+  levelWidthInTiles: 20
+  levelDepthInTiles: 20
   tilePrefab: {fileID: 1650390741937098, guid: 6133389494d8c4b49bd0fc17ab3b20e9, type: 3}
   centerVertexZ: 55
   maxDistanceZ: 55
   treeGeneration: {fileID: 314008091}
   riverGeneration: {fileID: 314008093}
+  oreGeneration: {fileID: 314008094}
 --- !u!4 &314008090
 Transform:
   m_ObjectHideFlags: 0
@@ -199,7 +201,7 @@ MonoBehaviour:
   - seed: 8722
     frequency: 4
     amplitude: 4
-  levelScale: 10
+  levelScale: 5
   neighborRadius:
   - 3
   - 3
@@ -239,6 +241,43 @@ MonoBehaviour:
   numberOfRivers: 10
   heightThreshold: 0.6
   riverColor: {r: 1, g: 0.20588237, b: 0.84665287, a: 0}
+--- !u!114 &314008094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 314008088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c8f1d286843410a846ffdda8200035, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noiseMapGeneration: {fileID: 314008092}
+  waves:
+  - seed: 6400
+    frequency: 1
+    amplitude: 1
+  - seed: 7480
+    frequency: 4
+    amplitude: 4
+  - seed: 6440
+    frequency: 8
+    amplitude: 8
+  levelScale: 5
+  neighborRadius:
+  - 10
+  - 10
+  - 10
+  - 15
+  - 20
+  orePrefab:
+  - {fileID: 2845881563301001524, guid: 6fab2ddf143914e14878b36392114f50, type: 3}
+  - {fileID: 7397113819801175725, guid: 77ad508a3e6d046f3b9cdacf7fcee6c8, type: 3}
+  - {fileID: 5852668364086622711, guid: f413a1371204d447f921dba73a4f1996, type: 3}
+  - {fileID: 5852668364086622711, guid: f413a1371204d447f921dba73a4f1996, type: 3}
+  - {fileID: 5852668364086622711, guid: f413a1371204d447f921dba73a4f1996, type: 3}
+  - {fileID: 5852668364086622711, guid: f413a1371204d447f921dba73a4f1996, type: 3}
 --- !u!850595691 &333445132
 LightingSettings:
   m_ObjectHideFlags: 0
