@@ -12,5 +12,8 @@ public class Interactable : InteractableBase
     {
         base.onFocused(playerObj);        
         animator = playerObj.GetComponent<Animator>();
-    } 
+    }
+    
+    public override void Interact()
+    {}
 }

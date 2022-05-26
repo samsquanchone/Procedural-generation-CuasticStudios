@@ -21,6 +21,13 @@ public class LevelGeneration : MonoBehaviour {
     
     [SerializeField]
     private OreGeneration oreGeneration;
+    
+    [SerializeField]
+    private EnemyGeneration enemyGeneration;
+    
+    [SerializeField]
+    private PortalGeneration portalGeneration;
+    
 
 	void Start() {
 		GenerateMap ();
@@ -65,6 +72,12 @@ public class LevelGeneration : MonoBehaviour {
         
         //generate ore for the level
         oreGeneration.GenerateOre(this.levelDepthInTiles * tileDepthInVertices, this.levelWidthInTiles * tileWidthInVertices, distanceBetweenVertices, levelData);
+        
+        //generate enemys for the level
+         enemyGeneration.GenerateEnemy(this.levelDepthInTiles * tileDepthInVertices, this.levelWidthInTiles * tileWidthInVertices, distanceBetweenVertices, levelData);
+         
+         //generate enemys for the level
+         portalGeneration.GeneratePortal(this.levelDepthInTiles * tileDepthInVertices, this.levelWidthInTiles * tileWidthInVertices, distanceBetweenVertices, levelData);
 	}
 }
 
