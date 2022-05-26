@@ -71,7 +71,7 @@ public class OreGeneration : MonoBehaviour
                         if (oreValue == maxValue) {
                             Vector3 orePosition = new Vector3(xIndex*distanceBetweenVertices, meshVertices[vertexIndex].y, zIndex*distanceBetweenVertices);
                             GameObject ore = Instantiate (this.orePrefab[biome.index], orePosition, Quaternion.identity) as GameObject;
-                            ore.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
+                            //ore.transform.localScale = new Vector3 (0.05f, 0.05f, 0.05f);
                         }
                     }
                 }
