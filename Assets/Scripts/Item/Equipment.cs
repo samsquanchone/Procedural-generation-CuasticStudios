@@ -6,8 +6,8 @@ using UnityEngine;
 public class Equipment : Item
 {
     public EquipmentSlot equipSlot;
-    public int defMultiplier;
-    public int attkMultiplier;
+    public int armourModifer;
+    public int damageModifer;
 
     public SkinnedMeshRenderer mesh;
 

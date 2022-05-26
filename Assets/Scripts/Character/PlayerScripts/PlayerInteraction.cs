@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
     public Camera playerCam;
-    public Interactable focus;
+    public InteractableBase focus;
     public bool isInteracting = false;
     float interactTime;
     Animator animator;
@@ -37,7 +37,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             interactTime = focus.GetComponent<Resource>().harvestTime;
         }
-        if (focus == null)
+        if (focus == null || focus.GetComponent<Resource>() == null)
         {
             interactTime = 0;
         }
@@ -52,19 +52,26 @@ public class PlayerInteraction : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, 1000))
             {
-                Interactable interactable = hit.collider.GetComponent<Interactable>();
+                InteractableBase interactable = hit.collider.GetComponent<InteractableBase>();
                 if (interactable != null)
                 {
-                    Debug.Log("Clicked on " + interactable.name);
-                    SetFocus(hit.collider.GetComponent<Interactable>());
+                    Debug.Log("Clicked on " + interactable.nameOfObject);
+                    SetFocus(hit.collider.GetComponent<InteractableBase>());
                 }
             }
         }
     }
 
-    void InteractButtonPress(Interactable interactable)
+    void InteractButtonPress(InteractableBase interactable)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        var interactButton = Input.GetKeyDown(KeyCode.Space);
+
+        if (interactButton && focus == null)
+        {
+            Debug.Log("Nothings focused");
+            return;
+        }
+        if (interactButton && focus != null)
         {
             if (focus.isFocus && !focus.hasInteracted) // Check theres nothing focused and hasnt interacted
             {
@@ -75,19 +82,31 @@ public class PlayerInteraction : MonoBehaviour
                     focus.hasInteracted = true;
                     focus.Interact(); 
                     
-                    if(focus.GetComponent<Resource>() != null)
+                    if(focus.GetComponent<Resource>() != null) // Interation specific to Resources
                     {
                         StartCoroutine(StopMovement(interactTime));
                     }
 
-                    focus = null;
+
+                    if(focus.GetComponent<Interactable>() != null) // Interaction specific to generic interactable 
+                    {
+                        focus = null;
+                    }
+
+                    if(focus.GetComponent<NpcInteractable>() != null) // Interaction specific to NPC's
+                    {
+                        focus.GetComponent<NpcInteractable>().TakeDamage(10);
+                        focus.hasInteracted = false;
+                    }
+
+                    return;
                 }
                 else Debug.Log("Out of range");
             }
         }
     }
 
-    void SetFocus(Interactable newFocus)
+    void SetFocus(InteractableBase newFocus)
     {
         if (newFocus != focus)
         {
