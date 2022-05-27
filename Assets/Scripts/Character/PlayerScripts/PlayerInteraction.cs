@@ -8,12 +8,14 @@ public class PlayerInteraction : MonoBehaviour
     public InteractableBase focus;
     public bool isInteracting = false;
     float interactTime;
-    Animator animator;
+    Animator animator;    
+    public SkillManager skillManager;
 
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+
     }
 
     // Update is called once per frame
@@ -55,7 +57,7 @@ public class PlayerInteraction : MonoBehaviour
                 InteractableBase interactable = hit.collider.GetComponent<InteractableBase>();
                 if (interactable != null)
                 {
-                    Debug.Log("Clicked on " + interactable.nameOfObject);
+                    //Debug.Log("Clicked on " + interactable.nameOfObject);
                     SetFocus(hit.collider.GetComponent<InteractableBase>());
                 }
             }
@@ -79,20 +81,23 @@ public class PlayerInteraction : MonoBehaviour
                 if (distance <= focus.radius) // compare distance to interactable range (radius)
                 {
                     // Can interact so call the objects interact
-                    focus.hasInteracted = true;
-                    focus.Interact(); 
+                    focus.hasInteracted = true; 
                     
-                    if(focus.GetComponent<Resource>() != null) // Interation specific to Resources
+                    if (focus.GetComponent<Resource>() != null) // Interaction specific to resource
                     {
-                        StartCoroutine(StopMovement(interactTime));
+                        Resource resource = focus.GetComponent<Resource>(); // Gets resource component
+                        if (resource.CheckIfCanHarvest()) // Checks if resource can be harvested
+                        {
+                            InteractWithResource(resource);                            
+                        }
+                        return;
                     }
-
 
                     if(focus.GetComponent<Interactable>() != null) // Interaction specific to generic interactable 
                     {
+                        focus.Interact();
                         focus = null;
                     }
-
                     if(focus.GetComponent<NpcInteractable>() != null) // Interaction specific to NPC's
                     {
                         focus.GetComponent<NpcInteractable>().TakeDamage(10);
@@ -104,6 +109,36 @@ public class PlayerInteraction : MonoBehaviour
                 else Debug.Log("Out of range");
             }
         }
+    }
+
+    private void InteractWithResource(Resource resource)
+    {     
+
+        switch (resource.resourceType)
+        {
+            case ResourceType.Wood:
+                {
+                    // CHECK WOOD CUTTING SKILL
+                    if (resource.levelToHarvest > skillManager.woodCutting.level)
+                    {
+                        Debug.Log("Level " + resource.levelToHarvest + " is needed");
+                        return;
+                    }
+                    if (resource.levelToHarvest <= skillManager.woodCutting.level)
+                    {
+                        resource.Interact();
+                        StartCoroutine(StopMovement(interactTime, resource));                   
+                        focus = null;
+                    }
+                    break;
+                }
+            case ResourceType.Ore:
+                {
+                    // CHECK MINING SKILL
+                    break;
+                }
+        } 
+
     }
 
     void SetFocus(InteractableBase newFocus)
@@ -128,12 +163,14 @@ public class PlayerInteraction : MonoBehaviour
         focus = null;
     }
 
-    IEnumerator StopMovement(float time)
+    IEnumerator StopMovement(float time ,Resource resource)
     {
-        Debug.Log("Started to interact");
+        //Debug.Log("Started to interact");
         isInteracting = true;
         yield return new WaitForSeconds(time);
+        //Debug.Log("Finished to interact");
+        skillManager.woodCutting.AddExp(resource.expWorth);
+        Debug.Log("Wood cutting exp: " + skillManager.woodCutting.GetCurrentExp() + "/" + skillManager.woodCutting.GetExpToNextLevel());
         isInteracting = false;
-        Debug.Log("Finished to interact");
     }
 }

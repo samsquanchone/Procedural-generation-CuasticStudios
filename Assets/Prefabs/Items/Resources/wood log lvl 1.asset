@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78b3e6de86b7f824797835608767df3f, type: 3}
-  m_Name: wood 1
+  m_Name: wood log lvl 1
   m_EditorClassIdentifier: 
-  name: Wood2
+  name: Wood log level 1
   icon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   isDefaultItem: 0

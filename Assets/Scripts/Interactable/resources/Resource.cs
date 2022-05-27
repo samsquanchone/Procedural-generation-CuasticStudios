@@ -6,8 +6,20 @@ public class Resource : Interactable
 {
     public Item resourceItem;
     public ResourceType resourceType = new ResourceType();
-    public float harvestTime = 10f;
+    public float harvestTime = 1f;
     public bool isHarvesting = false;
+    public int levelToHarvest = 1;
+    private bool canHarvest = true;
+    MeshRenderer visuals;
+
+    // To be abstraced to the resource scriptable object
+    public int expWorth = 1;
+    public int respawnTime = 2;
+
+    private void Awake()
+    {
+        visuals = gameObject.GetComponentInChildren<MeshRenderer>();
+    }
 
     public override void Interact()
     {
@@ -32,13 +44,30 @@ public class Resource : Interactable
         isHarvesting = false;
     }
 
-
     void pickUp() 
     {
         Debug.Log("Picked up " + resourceItem.name);
         Inventory.instance.Add(resourceItem);
-        Destroy(gameObject);
+        //Destroy(gameObject);        
+        StartCoroutine(Respawn(respawnTime));
+    }
+
+    IEnumerator Respawn(int respawnTime)
+    {
+        canHarvest = false;
         pickedUp = true;
+        visuals.enabled = false;
+
+        yield return new WaitForSeconds(respawnTime);
+
+        visuals.enabled = true; ;
+        canHarvest = true;
+        pickedUp = false;
+    }
+
+    public bool CheckIfCanHarvest()
+    {
+        return canHarvest;
     }
 }
 
