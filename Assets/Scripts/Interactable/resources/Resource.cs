@@ -8,17 +8,16 @@ public class Resource : Interactable
     public ResourceType resourceType = new ResourceType();
     public float harvestTime = 1f;
     public bool isHarvesting = false;
-    public int levelToHarvest = 1;
     private bool canHarvest = true;
-    MeshRenderer visuals;
+    public MeshRenderer visuals;
 
     // To be abstraced to the resource scriptable object
+    public int levelToHarvest = 1;
     public int expWorth = 1;
     public int respawnTime = 2;
 
     private void Awake()
     {
-        visuals = gameObject.GetComponentInChildren<MeshRenderer>();
     }
 
     public override void Interact()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : BaseUI
 {
     public GameObject inventoryUI;
     public Transform itemsParent;
@@ -27,7 +27,7 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    void UpdateUI()
+    public override void UpdateUI()
     {
         
         for (int i = 0; i < slots.Length; i++)

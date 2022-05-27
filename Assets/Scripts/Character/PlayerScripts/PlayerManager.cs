@@ -14,4 +14,10 @@ public class PlayerManager : MonoBehaviour
     #endregion
 
     public GameObject player;
+    public PlayerInteraction playerInteraction;
+
+    private void Start()
+    {
+        playerInteraction = player.GetComponent<PlayerInteraction>();
+    }
 }

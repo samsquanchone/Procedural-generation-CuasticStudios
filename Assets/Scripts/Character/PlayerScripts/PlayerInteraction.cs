@@ -11,11 +11,17 @@ public class PlayerInteraction : MonoBehaviour
     Animator animator;    
     public SkillManager skillManager;
 
+    // For focus bar ui
+    public delegate void OnFocusChanged();
+    public OnFocusChanged onFocusChanged;
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
 
+        if (onFocusChanged != null)
+               onFocusChanged.Invoke();
     }
 
     // Update is called once per frame
@@ -57,7 +63,7 @@ public class PlayerInteraction : MonoBehaviour
                 InteractableBase interactable = hit.collider.GetComponent<InteractableBase>();
                 if (interactable != null)
                 {
-                    //Debug.Log("Clicked on " + interactable.nameOfObject);
+                    //Debug.Log("Clicked on " + interactable.nameOfObject);                    
                     SetFocus(hit.collider.GetComponent<InteractableBase>());
                 }
             }
@@ -93,15 +99,17 @@ public class PlayerInteraction : MonoBehaviour
                         return;
                     }
 
-                    if(focus.GetComponent<Interactable>() != null) // Interaction specific to generic interactable 
-                    {
-                        focus.Interact();
-                        focus = null;
-                    }
                     if(focus.GetComponent<NpcInteractable>() != null) // Interaction specific to NPC's
                     {
                         focus.GetComponent<NpcInteractable>().TakeDamage(10);
                         focus.hasInteracted = false;
+                        return;
+                    }
+
+                    if(focus.GetComponent<Interactable>() != null) // Interaction specific to generic interactable 
+                    {
+                        focus.Interact();
+                        focus = null;
                     }
 
                     return;
@@ -143,6 +151,8 @@ public class PlayerInteraction : MonoBehaviour
 
     void SetFocus(InteractableBase newFocus)
     {
+        if (onFocusChanged != null)
+            onFocusChanged.Invoke(); // Change focus bar ui here
         if (newFocus != focus)
         {
             if (focus != null)
@@ -156,6 +166,8 @@ public class PlayerInteraction : MonoBehaviour
 
     void RemoveFocus()
     {
+        if (onFocusChanged != null)
+            onFocusChanged.Invoke(); // Change focus bar ui here
         if (focus != null)
         {
             focus.onDeFocused();
