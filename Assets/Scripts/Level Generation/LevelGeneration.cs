@@ -76,7 +76,7 @@ public class LevelGeneration : MonoBehaviour {
         //generate enemys for the level
          enemyGeneration.GenerateEnemy(this.levelDepthInTiles * tileDepthInVertices, this.levelWidthInTiles * tileWidthInVertices, distanceBetweenVertices, levelData);
          
-         //generate enemys for the level
+         //generate portals for the level
          portalGeneration.GeneratePortal(this.levelDepthInTiles * tileDepthInVertices, this.levelWidthInTiles * tileWidthInVertices, distanceBetweenVertices, levelData);
 	}
 }
