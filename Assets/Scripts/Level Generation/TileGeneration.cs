@@ -58,6 +58,9 @@ public class TileGeneration : MonoBehaviour {
 	[SerializeField]
 	private VisualizationMode visualizationMode;
 
+	private Material thisTilesMaterial;
+	public Material[] biomeMaterials;
+
 	public TileData GenerateTile(float centerVertexZ, float maxDistanceZ) {
 		// calculate tile depth and width based on the mesh vertices
 		Vector3[] meshVertices = this.meshFilter.mesh.vertices;
@@ -165,7 +168,8 @@ public class TileGeneration : MonoBehaviour {
 		// create a new texture and set its pixel colors
 		Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
-		tileTexture.SetPixels (colorMap);
+		
+		//tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
         
         
@@ -238,9 +242,10 @@ public class TileGeneration : MonoBehaviour {
                     
                     //assign the texture according to the selected biome
                     textureMap [textureIndex] = biome.texture;
-                    
-                    
-                    
+
+					// Setting material
+					thisTilesMaterial = gameObject.GetComponent<MeshRenderer>().material;
+					thisTilesMaterial = biomeMaterials[2];
 
 					// save biome in chosenBiomes matrix only when it is not water
 					chosenBiomes [zIndex, xIndex] = biome;
@@ -252,6 +257,7 @@ public class TileGeneration : MonoBehaviour {
 			}
 		}
 
+		
 		// create a new texture and set its pixel colors
 		Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
