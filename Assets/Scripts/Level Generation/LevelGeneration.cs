@@ -36,6 +36,7 @@ public class LevelGeneration : MonoBehaviour {
 	void GenerateMap() {
 		// get the tile dimensions from the tile Prefab
 		Vector3 tileSize = tilePrefab.GetComponent<MeshRenderer> ().bounds.size;
+    
 		int tileWidth = (int)tileSize.x;
 		int tileDepth = (int)tileSize.z;
 
@@ -58,9 +59,11 @@ public class LevelGeneration : MonoBehaviour {
 					this.gameObject.transform.position.z + zTileIndex * tileDepth);
 				// instantiate a new Tile
 				GameObject tile = Instantiate (tilePrefab, tilePosition, Quaternion.identity) as GameObject;
+                
 				// generate the Tile texture and save it in the levelData
 				TileData tileData = tile.GetComponent<TileGeneration> ().GenerateTile (centerVertexZ, maxDistanceZ);
 				levelData.AddTileData (tileData, zTileIndex, xTileIndex);
+                
 			}
 		}
 

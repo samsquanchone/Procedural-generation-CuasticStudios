@@ -167,6 +167,8 @@ public class TileGeneration : MonoBehaviour {
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
 		tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
+        
+        
 
 		return tileTexture;
 	}
@@ -215,9 +217,12 @@ public class TileGeneration : MonoBehaviour {
 		int tileWidth = heatTerrainTypes.GetLength (1);
 
 		Color[] colorMap = new Color[tileDepth * tileWidth];
+        Texture[] textureMap = new Texture[tileDepth * tileWidth];
+        
 		for (int zIndex = 0; zIndex < tileDepth; zIndex++) {
 			for (int xIndex = 0; xIndex < tileWidth; xIndex++) {
 				int colorIndex = zIndex * tileWidth + xIndex;
+                int textureIndex = zIndex * tileWidth + xIndex;
 
 				TerrainType heightTerrainType = heightTerrainTypes [zIndex, xIndex];
 				// check if the current coordinate is a water region
@@ -230,9 +235,16 @@ public class TileGeneration : MonoBehaviour {
 					Biome biome = this.biomes [moistureTerrainType.index].biomes [heatTerrainType.index];
 					// assign the color according to the selected biome
 					colorMap [colorIndex] = biome.color;
+                    
+                    //assign the texture according to the selected biome
+                    textureMap [textureIndex] = biome.texture;
+                    
+                    
+                    
 
 					// save biome in chosenBiomes matrix only when it is not water
 					chosenBiomes [zIndex, xIndex] = biome;
+                   
 				} else {
 					// water regions don't have biomes, they always have the same color
 					colorMap [colorIndex] = this.waterColor;
@@ -245,9 +257,16 @@ public class TileGeneration : MonoBehaviour {
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
 		tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
+       
+  
+       
 
 		return tileTexture;
 	}
+ 
+ 
+ 
+ 
 }
 
 [System.Serializable]
@@ -262,6 +281,7 @@ public class TerrainType {
 public class Biome {
 	public string name;
 	public Color color;
+    public Texture texture;
 	public int index;
 }
 
@@ -281,6 +301,7 @@ public class TileData {
 	public Biome[,] chosenBiomes;
 	public Mesh mesh;
 	public Texture2D texture;
+    public Material material;
 
 	public TileData(float[,]  heightMap, float[,]  heatMap, float[,]  moistureMap, 
 		TerrainType[,] chosenHeightTerrainTypes, TerrainType[,] chosenHeatTerrainTypes, TerrainType[,] chosenMoistureTerrainTypes,
@@ -294,6 +315,7 @@ public class TileData {
 		this.chosenBiomes = chosenBiomes;
 		this.mesh = mesh;
 		this.texture = texture;
+       
 	}
 }
 
