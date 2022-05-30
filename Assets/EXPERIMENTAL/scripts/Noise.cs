@@ -3,17 +3,27 @@ using UnityEngine;
 
 public static class Noise 
 {
-   public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset)
+    public enum NormaliseMode {  Local, Global };
+
+   public static float[,] GenerateNoiseMap(int mapWidth, int mapHeight, int seed, float scale, int octaves, float persistance, float lacunarity, Vector2 offset, NormaliseMode normaliseMode)
     {
         float[,] noiseMap = new float[mapWidth, mapHeight];
 
         System.Random prng = new System.Random(seed); // pusedo random number generator
         Vector2[] octaveOffsets = new Vector2[octaves];
-        for(int i = 0; i < octaves; i++)
+
+        float maxPossibleHeight = 0; ;
+        float amplitude = 1;
+        float frequency = 1;
+
+        for (int i = 0; i < octaves; i++)
         {
             float offestX = prng.Next(-100000, 100000) + offset.x;
-            float offestY = prng.Next(-100000, 100000) + offset.y;
+            float offestY = prng.Next(-100000, 100000) - offset.y;
             octaveOffsets[i] = new Vector2(offestX, offestY);
+
+            maxPossibleHeight += amplitude;
+            amplitude *= persistance;
         }
 
         // Checking sclae isnt 0, dont wanna be divding by that lol
@@ -24,8 +34,8 @@ public static class Noise
         }
         #endregion
 
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
+        float localMaxNoiseHeight = float.MinValue;
+        float localMinNoiseHeight = float.MaxValue;
 
         float halfWidth = mapWidth / 2;
         float halfHeight = mapHeight / 2;
@@ -34,29 +44,29 @@ public static class Noise
         {
             for ( int x = 0; x < mapWidth; x++)
             {
-                float amplitude = 1;
-                float frequency = 1;
+                amplitude = 1;
+                frequency = 1;
                 float noiseHeight = 0;
 
                 for (int i = 0; i < octaves; i++)
                 {
-                    float sampleX = (x - halfWidth) / scale  * frequency + octaveOffsets[i].x;
-                    float sampleY = (y - halfHeight) / scale * frequency + octaveOffsets[i].y;
+                    float sampleX = (x - halfWidth + octaveOffsets[i].x) / scale  * frequency ;
+                    float sampleY = (y - halfHeight + octaveOffsets[i].y) / scale * frequency ;
 
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
                     noiseHeight += perlinValue * amplitude;
 
-                    amplitude *= perlinValue;
+                    amplitude *= persistance;
                     frequency *= lacunarity;
                 }
 
-                if(noiseHeight > maxNoiseHeight) // Keeping track of the highest noise height
+                if(noiseHeight > localMaxNoiseHeight) // Keeping track of the highest noise height
                 {
-                    maxNoiseHeight = noiseHeight;
+                    localMaxNoiseHeight = noiseHeight;
                 }
-                else if (noiseHeight < minNoiseHeight) // keeping track of lowest noise height
+                else if (noiseHeight < localMinNoiseHeight) // keeping track of lowest noise height
                 {
-                    minNoiseHeight = noiseHeight;
+                    localMinNoiseHeight = noiseHeight;
                 }
 
                 noiseMap[x, y] = noiseHeight;
@@ -67,7 +77,15 @@ public static class Noise
         {
             for (int x = 0; x < mapWidth; x++)
             {
-                noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
+                if (normaliseMode == NormaliseMode.Local)
+                {
+                    noiseMap[x, y] = Mathf.InverseLerp(localMinNoiseHeight, localMaxNoiseHeight, noiseMap[x, y]);
+                }
+                else
+                {
+                    float normalisedHeight = (noiseMap[x, y] + 1) / (maxPossibleHeight);
+                    noiseMap[x, y] = Mathf.Clamp(normalisedHeight, 0, int.MaxValue);
+                }
             }
         }
 

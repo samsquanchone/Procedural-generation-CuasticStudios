@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
 {
+    const float scale = 15f;
+
     const float viewerMoveThresholdForChunkUpdate = 25f; // Distance the player need to move before chunk updates
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate; // same as above but square dude
 
@@ -20,7 +22,7 @@ public class EndlessTerrain : MonoBehaviour
     int chunkVisibleInViewDistance;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
-    List<TerrainChunk> terrainChunkVisibleLastUpdate = new List<TerrainChunk>();
+    static List<TerrainChunk> terrainChunkVisibleLastUpdate = new List<TerrainChunk>();
 
     private void Start()
     {
@@ -35,7 +37,7 @@ public class EndlessTerrain : MonoBehaviour
 
     private void Update()
     {
-        viewerPositon = new Vector2(viewer.position.x, viewer.position.z);
+        viewerPositon = new Vector2(viewer.position.x, viewer.position.z) / scale;
 
         if((viewrPosOld - viewerPositon).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
         {
@@ -66,11 +68,7 @@ public class EndlessTerrain : MonoBehaviour
 
                 if(terrainChunkDictionary.ContainsKey(viewedChunkCoord))
                 {
-                    terrainChunkDictionary[viewedChunkCoord].UpdateTerrainChunk();
-                    if (terrainChunkDictionary[viewedChunkCoord].IsVisible())
-                    {
-                        terrainChunkVisibleLastUpdate.Add(terrainChunkDictionary[viewedChunkCoord]);
-                    }
+                    terrainChunkDictionary[viewedChunkCoord].UpdateTerrainChunk();                    
                 }
                 if(!terrainChunkDictionary.ContainsKey(viewedChunkCoord))
                 {
@@ -92,6 +90,7 @@ public class EndlessTerrain : MonoBehaviour
 
         MeshRenderer meshRenderer;
         MeshFilter meshFilter;
+        MeshCollider meshCollider;
 
         LODInfo[] detailLevels;
         LODMesh[] lodMeshes;
@@ -109,10 +108,12 @@ public class EndlessTerrain : MonoBehaviour
             meshObject = new GameObject("Terrain Chunk");
             meshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshFilter = meshObject.AddComponent<MeshFilter>();
+            meshCollider = meshObject.AddComponent<MeshCollider>();
             meshRenderer.material = material;
 
-            meshObject.transform.position = postionV3;
+            meshObject.transform.position = postionV3 * scale;
             meshObject.transform.parent = parent;
+            meshObject.transform.localScale = Vector3.one * scale;
             SetVisible(false);
 
             lodMeshes = new LODMesh[detailLevels.Length];
@@ -169,12 +170,14 @@ public class EndlessTerrain : MonoBehaviour
                         {
                             previousLodIndex = currenLodIndex;
                             meshFilter.mesh = lodMesh.mesh;
+                            meshCollider.sharedMesh = lodMesh.mesh;
                         }
                         else if (!lodMesh.hasRequestedMesh)
                         {
                             lodMesh.RequestMesh(mapData);
                         }
                     }
+                    terrainChunkVisibleLastUpdate.Add(this);
                 }
 
                 SetVisible(visible);
