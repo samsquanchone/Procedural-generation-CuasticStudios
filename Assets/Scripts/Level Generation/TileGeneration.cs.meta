@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: bb0440a0612300f4cb92dcc22d4167a2
-timeCreated: 1505620268
-licenseType: Free
 MonoImporter:
+  externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - noiseMapGeneration: {instanceID: 0}
+  - tileRenderer: {instanceID: 0}
+  - meshFilter: {instanceID: 0}
+  - meshCollider: {instanceID: 0}
+  - tileMaterial: {fileID: 2100000, guid: 8a2a2ce00770441498443c2b4af20a46, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

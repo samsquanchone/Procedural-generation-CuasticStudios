@@ -358,4 +358,15 @@ MonoBehaviour:
   waterColor: {r: 0.2647059, g: 0.26977703, b: 1, a: 0}
   visualizationMode: 3
   tileMaterial: {fileID: 2100000, guid: 8a2a2ce00770441498443c2b4af20a46, type: 2}
-  grassTexture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
+  baseColours:
+  - {r: 0.8634019, g: 0.9254902, b: 0.10196076, a: 0}
+  - {r: 0.15119925, g: 0.9622642, b: 0.031772893, a: 0}
+  - {r: 0.049439307, g: 0.35971564, b: 0.9528302, a: 0}
+  baseStartHeights:
+  - 1
+  - 0.902
+  - 0.967
+  baseBlends:
+  - 0.987
+  - 0.829
+  - 1

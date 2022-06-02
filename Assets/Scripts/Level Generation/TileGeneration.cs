@@ -60,11 +60,20 @@ public class TileGeneration : MonoBehaviour {
  
     public Material tileMaterial;
     
-    public Texture2D grassTexture;
+   
     
+    public Color[] baseColours;
+    [Range(0,1)]
+    
+    public float[] baseStartHeights;
+    [Range(0,1)]
+    
+    public float[] baseBlends;
     
     const int textureSize = 512;
     const TextureFormat textureFormat = TextureFormat.RGB565;
+    
+    
     
    void Awake()
     {
@@ -274,7 +283,7 @@ public class TileGeneration : MonoBehaviour {
 		tileTexture.Apply ();
         
      //   ApplyToMaterial(tileMaterial, textureMap, "baseTextures", colorMap, tileWidth, tileDepth);
-        // Texture2DArray texturesArray = GenerateTextureArray (textureMap, colorMap, tileWidth, tileDepth);
+      //  Texture2DArray texturesArray = GenerateTextureArray (textureMap, colorMap, tileWidth, tileDepth);
   
        
 
@@ -284,6 +293,10 @@ public class TileGeneration : MonoBehaviour {
  public void ApplyToMaterial(Material material, Texture2D[] texturesArray, string textureName, Color[] colors, int tileWidth, int tileDepth)
  {
      Debug.Log("oh oh");
+     material.SetInt("baseColourCount", colors.Length);
+     material.SetColorArray("baseColours", colors);
+     material.SetFloatArray("baseStartHeights", baseStartHeights);
+     material.SetFloatArray("baseBlends", baseBlends);
      Texture2DArray texturesArrayToUse = GenerateTextureArray (texturesArray, colors, tileWidth, tileDepth);
      material.SetTexture(textureName, texturesArrayToUse);
  }
