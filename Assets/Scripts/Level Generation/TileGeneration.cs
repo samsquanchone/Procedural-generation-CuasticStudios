@@ -273,7 +273,7 @@ public class TileGeneration : MonoBehaviour {
 		tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
         
-       ApplyToMaterial(tileMaterial, textureMap, "baseTextures", colorMap, tileWidth, tileDepth);
+     //   ApplyToMaterial(tileMaterial, textureMap, "baseTextures", colorMap, tileWidth, tileDepth);
         // Texture2DArray texturesArray = GenerateTextureArray (textureMap, colorMap, tileWidth, tileDepth);
   
        
