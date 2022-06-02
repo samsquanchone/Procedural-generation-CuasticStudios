@@ -357,3 +357,5 @@ MonoBehaviour:
       index: 1
   waterColor: {r: 0.2647059, g: 0.26977703, b: 1, a: 0}
   visualizationMode: 3
+  tileMaterial: {fileID: 2100000, guid: 8a2a2ce00770441498443c2b4af20a46, type: 2}
+  grassTexture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}

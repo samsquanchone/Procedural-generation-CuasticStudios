@@ -57,9 +57,19 @@ public class TileGeneration : MonoBehaviour {
 
 	[SerializeField]
 	private VisualizationMode visualizationMode;
+ 
+    public Material tileMaterial;
+    
+    public Texture2D grassTexture;
+    
     
     const int textureSize = 512;
     const TextureFormat textureFormat = TextureFormat.RGB565;
+    
+   void Awake()
+    {
+       GetComponent<Renderer>().material = tileMaterial;
+    }
 
 	public TileData GenerateTile(float centerVertexZ, float maxDistanceZ) {
 		// calculate tile depth and width based on the mesh vertices
@@ -114,7 +124,7 @@ public class TileGeneration : MonoBehaviour {
 
 		// build a biomes Texture2D from the three other noise variables
 		Biome[,] chosenBiomes = new Biome[tileDepth, tileWidth];
-		Texture2DArray biomeTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
+		Texture2D biomeTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
 
 		switch (this.visualizationMode) {
 		case VisualizationMode.Height:
@@ -215,7 +225,7 @@ public class TileGeneration : MonoBehaviour {
 		this.meshCollider.sharedMesh = this.meshFilter.mesh;
 	}
 
-	private Texture2DArray BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes) {
+	private Texture2D BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes) {
 		int tileDepth = heatTerrainTypes.GetLength (0);
 		int tileWidth = heatTerrainTypes.GetLength (1);
 
@@ -243,7 +253,7 @@ public class TileGeneration : MonoBehaviour {
                     textureMap [textureIndex] = biome.texture;
                     
                     
-                    
+                     
                     
 
 					// save biome in chosenBiomes matrix only when it is not water
@@ -255,30 +265,37 @@ public class TileGeneration : MonoBehaviour {
 				}
 			}
 		}
-  
+        
+        
 		// create a new texture and set its pixel colors
-		/*Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
+		Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
 		tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
-        */
-        Texture2DArray texturesArray = GenerateTextureArray (textureMap, colorMap, tileWidth, tileDepth);
-       
+        
+       ApplyToMaterial(tileMaterial, textureMap, "baseTextures", colorMap, tileWidth, tileDepth);
+        // Texture2DArray texturesArray = GenerateTextureArray (textureMap, colorMap, tileWidth, tileDepth);
   
        
 
-		//return tileTexture;
-          return texturesArray;
+		  return tileTexture;
+         // return texturesArray;
 	}
- 
+ public void ApplyToMaterial(Material material, Texture2D[] texturesArray, string textureName, Color[] colors, int tileWidth, int tileDepth)
+ {
+     Debug.Log("oh oh");
+     Texture2DArray texturesArrayToUse = GenerateTextureArray (texturesArray, colors, tileWidth, tileDepth);
+     material.SetTexture(textureName, texturesArrayToUse);
+ }
  
  Texture2DArray GenerateTextureArray(Texture2D[] textures, Color[] colors, int tileWidth, int tileDepth)
  {
  Texture2DArray textureArray = new Texture2DArray(tileDepth, tileWidth, textures.Length, textureFormat, true);
     for(int i = 0; i < textures.Length; i++)
     {
-       textureArray.SetPixels(colors, i);
+       textureArray.SetPixels(textures[i].GetPixels(), i);
        textureArray.wrapMode = TextureWrapMode.Clamp;
+       Debug.Log("Texture" + textureArray);
        }
        textureArray.Apply();
        
