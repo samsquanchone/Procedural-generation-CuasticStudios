@@ -57,6 +57,9 @@ public class TileGeneration : MonoBehaviour {
 
 	[SerializeField]
 	private VisualizationMode visualizationMode;
+    
+    const int textureSize = 512;
+    const TextureFormat textureFormat = TextureFormat.RGB565;
 
 	public TileData GenerateTile(float centerVertexZ, float maxDistanceZ) {
 		// calculate tile depth and width based on the mesh vertices
@@ -111,7 +114,7 @@ public class TileGeneration : MonoBehaviour {
 
 		// build a biomes Texture2D from the three other noise variables
 		Biome[,] chosenBiomes = new Biome[tileDepth, tileWidth];
-		Texture2D biomeTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
+		Texture2DArray biomeTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
 
 		switch (this.visualizationMode) {
 		case VisualizationMode.Height:
@@ -212,12 +215,12 @@ public class TileGeneration : MonoBehaviour {
 		this.meshCollider.sharedMesh = this.meshFilter.mesh;
 	}
 
-	private Texture2D BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes) {
+	private Texture2DArray BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes) {
 		int tileDepth = heatTerrainTypes.GetLength (0);
 		int tileWidth = heatTerrainTypes.GetLength (1);
 
 		Color[] colorMap = new Color[tileDepth * tileWidth];
-        Texture[] textureMap = new Texture[tileDepth * tileWidth];
+        Texture2D[] textureMap = new Texture2D[tileDepth * tileWidth];
         
 		for (int zIndex = 0; zIndex < tileDepth; zIndex++) {
 			for (int xIndex = 0; xIndex < tileWidth; xIndex++) {
@@ -241,6 +244,7 @@ public class TileGeneration : MonoBehaviour {
                     
                     
                     
+                    
 
 					// save biome in chosenBiomes matrix only when it is not water
 					chosenBiomes [zIndex, xIndex] = biome;
@@ -251,21 +255,36 @@ public class TileGeneration : MonoBehaviour {
 				}
 			}
 		}
-
+  
 		// create a new texture and set its pixel colors
-		Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
+		/*Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
 		tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
+        */
+        Texture2DArray texturesArray = GenerateTextureArray (textureMap, colorMap, tileWidth, tileDepth);
        
   
        
 
-		return tileTexture;
+		//return tileTexture;
+          return texturesArray;
 	}
  
  
- 
+ Texture2DArray GenerateTextureArray(Texture2D[] textures, Color[] colors, int tileWidth, int tileDepth)
+ {
+ Texture2DArray textureArray = new Texture2DArray(tileDepth, tileWidth, textures.Length, textureFormat, true);
+    for(int i = 0; i < textures.Length; i++)
+    {
+       textureArray.SetPixels(colors, i);
+       textureArray.wrapMode = TextureWrapMode.Clamp;
+       }
+       textureArray.Apply();
+       
+       return textureArray;
+    
+ }
  
 }
 
@@ -281,7 +300,7 @@ public class TerrainType {
 public class Biome {
 	public string name;
 	public Color color;
-    public Texture texture;
+    public Texture2D texture;
 	public int index;
 }
 

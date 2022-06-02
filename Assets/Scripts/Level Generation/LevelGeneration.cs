@@ -28,6 +28,8 @@ public class LevelGeneration : MonoBehaviour {
     [SerializeField]
     private PortalGeneration portalGeneration;
     
+    //Declaring array of textures
+   // UNITY_DECLARE_TEX2DARRAY (baseTextures);
 
 	void Start() {
 		GenerateMap ();

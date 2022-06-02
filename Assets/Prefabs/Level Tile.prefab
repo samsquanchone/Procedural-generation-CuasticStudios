@@ -290,19 +290,19 @@ MonoBehaviour:
   - biomes:
     - name: desert
       color: {r: 1, g: 0.2647059, b: 0.2647059, a: 0}
-      texture: {fileID: 2800000, guid: 6b69915dcc669eb408e53012b26209f3, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 0
     - name: desert
       color: {r: 1, g: 0.26666668, b: 0.26666668, a: 0}
-      texture: {fileID: 2800000, guid: 6b69915dcc669eb408e53012b26209f3, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 0
     - name: tundra
       color: {r: 0.6627451, g: 0.8117648, b: 0.8745099, a: 0}
-      texture: {fileID: 2800000, guid: c3203ec76eb6cf94cb6edf751a8e6918, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 1
     - name: tundra
       color: {r: 0.75735295, g: 0.92971605, b: 1, a: 0}
-      texture: {fileID: 2800000, guid: c3203ec76eb6cf94cb6edf751a8e6918, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 1
   - biomes:
     - name: savanna
@@ -311,49 +311,49 @@ MonoBehaviour:
       index: 2
     - name: savanna
       color: {r: 0.9686275, g: 1, b: 0.67058825, a: 0}
-      texture: {fileID: 2800000, guid: 8e25b4fbc7de45e4786bc89307f29cc0, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 2
     - name: boreal forest
       color: {r: 0.34572843, g: 0.6911765, b: 0.29984862, a: 0}
-      texture: {fileID: 2800000, guid: 2f5cd9299a72d9c47b2fce852aa35c11, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 3
     - name: tundra
       color: {r: 0.7568628, g: 0.9294118, b: 1, a: 0}
-      texture: {fileID: 0}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 1
   - biomes:
     - name: tropical rainforest
       color: {r: 0.11176473, g: 0.5588235, b: 0, a: 0}
-      texture: {fileID: 2800000, guid: 2f5cd9299a72d9c47b2fce852aa35c11, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 4
     - name: boreal forest
       color: {r: 0.34509805, g: 0.6901961, b: 0.29803923, a: 0}
-      texture: {fileID: 2800000, guid: 8e25b4fbc7de45e4786bc89307f29cc0, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 3
     - name: boreal forest
       color: {r: 0.34509805, g: 0.6901961, b: 0.29803923, a: 0}
-      texture: {fileID: 2800000, guid: 8e25b4fbc7de45e4786bc89307f29cc0, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 3
     - name: tundra
       color: {r: 0.7568628, g: 0.9294118, b: 1, a: 0}
-      texture: {fileID: 2800000, guid: c3203ec76eb6cf94cb6edf751a8e6918, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 1
   - biomes:
     - name: tropical rainforest
       color: {r: 0.1137255, g: 0.56078434, b: 0, a: 0}
-      texture: {fileID: 2800000, guid: 2f5cd9299a72d9c47b2fce852aa35c11, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 4
     - name: tropical rainforest
       color: {r: 0.1137255, g: 0.56078434, b: 0, a: 0}
-      texture: {fileID: 2800000, guid: 2f5cd9299a72d9c47b2fce852aa35c11, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 4
     - name: tundra
       color: {r: 0.7568628, g: 0.9294118, b: 1, a: 0}
-      texture: {fileID: 2800000, guid: c3203ec76eb6cf94cb6edf751a8e6918, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 1
     - name: tundra
       color: {r: 0.7568628, g: 0.9294118, b: 1, a: 0}
-      texture: {fileID: 2800000, guid: c3203ec76eb6cf94cb6edf751a8e6918, type: 3}
+      texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
       index: 1
   waterColor: {r: 0.2647059, g: 0.26977703, b: 1, a: 0}
   visualizationMode: 3
