@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq; //Used to link texture variables
 
 public class TileGeneration : MonoBehaviour {
 
@@ -60,15 +61,15 @@ public class TileGeneration : MonoBehaviour {
  
     public Material tileMaterial;
     
-   
+    public Layer[] layers;
     
-    public Color[] baseColours;
-    [Range(0,1)]
     
-    public float[] baseStartHeights;
-    [Range(0,1)]
+    public float minTerrainTextureHeight;
+    public float maxTerrainTextureHeight;
     
-    public float[] baseBlends;
+    
+    
+  
     
     const int textureSize = 512;
     const TextureFormat textureFormat = TextureFormat.RGB565;
@@ -77,7 +78,7 @@ public class TileGeneration : MonoBehaviour {
     
    void Awake()
     {
-       GetComponent<Renderer>().material = tileMaterial;
+      // GetComponent<Renderer>().material = tileMaterial;
     }
 
 	public TileData GenerateTile(float centerVertexZ, float maxDistanceZ) {
@@ -160,7 +161,11 @@ public class TileGeneration : MonoBehaviour {
 		TileData tileData = new TileData (heightMap, heatMap, moistureMap, 
 			chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes, 
 			this.meshFilter.mesh, (Texture2D)this.tileRenderer.material.mainTexture);
-
+        
+      
+      
+        UpdateMeshHeightMaterial(tileMaterial, minTerrainTextureHeight, maxTerrainTextureHeight);
+         
 		return tileData;
 	}
 
@@ -187,7 +192,7 @@ public class TileGeneration : MonoBehaviour {
 		// create a new texture and set its pixel colors
 		Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
-		tileTexture.SetPixels (colorMap);
+		//tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
         
         
@@ -277,33 +282,47 @@ public class TileGeneration : MonoBehaviour {
         
         
 		// create a new texture and set its pixel colors
-		Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
-		tileTexture.wrapMode = TextureWrapMode.Clamp;
-		tileTexture.SetPixels (colorMap);
-		tileTexture.Apply ();
+		 Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
+		//tileTexture.wrapMode = TextureWrapMode.Clamp;
+		//tileTexture.SetPixels (colorMap);
+		//tileTexture.Apply ();
+       
+        // Texture2DArray texturesArray = GenerateTextureArray (textureMap, tileWidth, tileDepth);
         
-     //   ApplyToMaterial(tileMaterial, textureMap, "baseTextures", colorMap, tileWidth, tileDepth);
-      //  Texture2DArray texturesArray = GenerateTextureArray (textureMap, colorMap, tileWidth, tileDepth);
+        
+       
+        ApplyToMaterial(tileMaterial);
+        
   
        
 
 		  return tileTexture;
          // return texturesArray;
 	}
- public void ApplyToMaterial(Material material, Texture2D[] texturesArray, string textureName, Color[] colors, int tileWidth, int tileDepth)
+ public void ApplyToMaterial(Material material)
  {
      Debug.Log("oh oh");
-     material.SetInt("baseColourCount", colors.Length);
-     material.SetColorArray("baseColours", colors);
-     material.SetFloatArray("baseStartHeights", baseStartHeights);
-     material.SetFloatArray("baseBlends", baseBlends);
-     Texture2DArray texturesArrayToUse = GenerateTextureArray (texturesArray, colors, tileWidth, tileDepth);
-     material.SetTexture(textureName, texturesArrayToUse);
- }
- 
- Texture2DArray GenerateTextureArray(Texture2D[] textures, Color[] colors, int tileWidth, int tileDepth)
+     material.SetInt("layerCount", layers.Length);
+     material.SetColorArray("baseColours", layers.Select(x => x.tint).ToArray());
+     material.SetFloatArray("baseStartHeights", layers.Select(x => x.startHeight).ToArray());
+     material.SetFloatArray("baseBlends", layers.Select(x => x.blendStrength).ToArray());
+     material.SetFloatArray("baseColourStrength", layers.Select(x => x.tintStrength).ToArray());
+     material.SetFloatArray("baseTextureScale", layers.Select(x => x.textureScale).ToArray());
+
+     
+     Texture2DArray texturesArray = GenerateTextureArray (layers.Select(x => x.texture).ToArray());
+     material.SetTexture("baseTextures", texturesArray);
+        
+}
+ void UpdateMeshHeightMaterial(Material material, float minHeight, float maxHeight)
  {
- Texture2DArray textureArray = new Texture2DArray(tileDepth, tileWidth, textures.Length, textureFormat, true);
+    material.SetFloat("minHeight", minHeight);
+    material.SetFloat("maxHeight", maxHeight);
+ 
+ }
+ Texture2DArray GenerateTextureArray(Texture2D[] textures)
+ {
+ Texture2DArray textureArray = new Texture2DArray(textureSize, textureSize, textures.Length, textureFormat, true);
     for(int i = 0; i < textures.Length; i++)
     {
        textureArray.SetPixels(textures[i].GetPixels(), i);
@@ -317,6 +336,19 @@ public class TileGeneration : MonoBehaviour {
  }
  
 }
+
+[System.Serializable]
+ public class Layer {
+ 
+ public Texture2D texture;
+ public Color tint;
+ [Range (0,1)]
+ public float tintStrength;
+ public float startHeight;
+ [Range (0,1)]
+ public float blendStrength;
+ public float textureScale;
+                     }
 
 [System.Serializable]
 public class TerrainType {
@@ -366,6 +398,7 @@ public class TileData {
 		this.texture = texture;
        
 	}
+ 
 }
 
 enum VisualizationMode {Height, Heat, Moisture, Biome}
