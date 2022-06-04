@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
 {
-    const float scale = 15f;
+    const float scale = 10;
 
     const float viewerMoveThresholdForChunkUpdate = 25f; // Distance the player need to move before chunk updates
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate; // same as above but square dude

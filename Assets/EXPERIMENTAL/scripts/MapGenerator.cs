@@ -79,6 +79,8 @@ public class MapGenerator : MonoBehaviour
 
     void MapDataThread(Vector2 centre, Action<MapData> callback)
     {
+        // Maybe do biome stuff here
+
         MapData mapData = GenerateMapData(centre);
         lock (mapDataThreadInfoQueue)
         {
@@ -145,6 +147,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     if (currentHeight >= terrainTypes[i].height)
                     {
+                        // Pass biome colours here for terrain type
                         colourMap[y * mapChunkSize + x] = terrainTypes[i].colour;                        
                     }
                     else
