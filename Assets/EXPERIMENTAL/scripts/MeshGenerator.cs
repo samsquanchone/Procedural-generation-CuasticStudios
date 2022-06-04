@@ -76,7 +76,10 @@ public static class MeshGenerator
                 vertexIndex++;
             }
         }
-
+        
+        //Run on seperate non-gamethread
+        meshData.BakeNormals();
+        
         return meshData;
     }
 }
@@ -86,6 +89,7 @@ public class MeshData
     public Vector3[] vertices;
     public int[] triangles;
     public Vector2[] uvs;
+    Vector3[] bakedNormals;
     
     Vector3[] borderVertices;
     int[] borderTriangles;
@@ -194,15 +198,19 @@ public class MeshData
       
       return Vector3.Cross (sideAB, sideAC).normalized;
       
+      }
       
-    }
+     public void BakeNormals()
+     {
+         bakedNormals = CalculateNormals();
+     }
     public Mesh CreateMesh()
     {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
-        mesh.normals = CalculateNormals();
+        mesh.normals = bakedNormals;
         return mesh;
     }
 }
