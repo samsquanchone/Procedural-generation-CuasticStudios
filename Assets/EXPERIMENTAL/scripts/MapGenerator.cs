@@ -12,7 +12,7 @@ public class MapGenerator : MonoBehaviour
 
     public Noise.NormaliseMode normaliseMode;
 
-    public const int mapChunkSize = 241; // dimension is actualy one less so 240x240
+    public const int mapChunkSize = 239; // border taken account for here, so the + 2 offset will = 241
     public bool fallOff;
     [Range(0,6)]
     public int editorPreviewLevelOfDetail;
@@ -130,7 +130,7 @@ public class MapGenerator : MonoBehaviour
 
     MapData GenerateMapData(Vector2 centre)
     {
-        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize, mapChunkSize, seed, noiseScale, octaves, persistance, lacunarity, centre + offset, normaliseMode);
+        float[,] noiseMap = Noise.GenerateNoiseMap(mapChunkSize + 2, mapChunkSize + 2, seed, noiseScale, octaves, persistance, lacunarity, centre + offset, normaliseMode);
 
 
         Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
