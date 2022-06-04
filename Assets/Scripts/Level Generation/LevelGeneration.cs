@@ -28,13 +28,28 @@ public class LevelGeneration : MonoBehaviour {
     [SerializeField]
     private PortalGeneration portalGeneration;
     
-    //Declaring array of textures
-   // UNITY_DECLARE_TEX2DARRAY (baseTextures);
-
+    [SerializeField]
+    private TextureData textureData;
+    
+  
+    
+    
 	void Start() {
 		GenerateMap ();
 	}
 
+    private void onValidate()
+    {
+     
+     textureData = tilePrefab.GetComponent<TextureData>();
+     
+    }
+    
+    private void OnTextureValueUpdated()
+    {
+      
+      textureData = tilePrefab.GetComponent<TextureData>().ApplyToMaterial();
+    }
 	void GenerateMap() {
 		// get the tile dimensions from the tile Prefab
 		Vector3 tileSize = tilePrefab.GetComponent<MeshRenderer> ().bounds.size;

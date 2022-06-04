@@ -58,10 +58,14 @@ public class TileGeneration : MonoBehaviour {
 
 	[SerializeField]
 	private VisualizationMode visualizationMode;
- 
+    
+    
+    
+    
+    public TextureData textureData;
     public Material tileMaterial;
     
-    public Layer[] layers;
+    //public Layer[] layers;
     
     
     public float minTerrainTextureHeight;
@@ -71,8 +75,8 @@ public class TileGeneration : MonoBehaviour {
     
   
     
-    const int textureSize = 512;
-    const TextureFormat textureFormat = TextureFormat.RGB565;
+    /*const int textureSize = 512;
+    const TextureFormat textureFormat = TextureFormat.RGB565;*/
     
     
     
@@ -163,9 +167,9 @@ public class TileGeneration : MonoBehaviour {
 			this.meshFilter.mesh, (Texture2D)this.tileRenderer.material.mainTexture);
         
       
-      
-        UpdateMeshHeightMaterial(tileMaterial, minTerrainTextureHeight, maxTerrainTextureHeight);
-         
+        
+  
+        textureData.UpdateMeshHeightMaterial (tileMaterial, minTerrainTextureHeight, maxTerrainTextureHeight);
 		return tileData;
 	}
 
@@ -192,7 +196,7 @@ public class TileGeneration : MonoBehaviour {
 		// create a new texture and set its pixel colors
 		Texture2D tileTexture = new Texture2D (tileWidth, tileDepth);
 		tileTexture.wrapMode = TextureWrapMode.Clamp;
-		//tileTexture.SetPixels (colorMap);
+		tileTexture.SetPixels (colorMap);
 		tileTexture.Apply ();
         
         
@@ -290,8 +294,8 @@ public class TileGeneration : MonoBehaviour {
         // Texture2DArray texturesArray = GenerateTextureArray (textureMap, tileWidth, tileDepth);
         
         
+       textureData.ApplyToMaterial(tileMaterial);
        
-        ApplyToMaterial(tileMaterial);
         
   
        
@@ -299,7 +303,7 @@ public class TileGeneration : MonoBehaviour {
 		  return tileTexture;
          // return texturesArray;
 	}
- public void ApplyToMaterial(Material material)
+ /*public void ApplyToMaterial(Material material)
  {
      Debug.Log("oh oh");
      material.SetInt("layerCount", layers.Length);
@@ -334,9 +338,9 @@ public class TileGeneration : MonoBehaviour {
        return textureArray;
     
  }
- 
+ */
 }
-
+/*
 [System.Serializable]
  public class Layer {
  
@@ -349,7 +353,7 @@ public class TileGeneration : MonoBehaviour {
  public float blendStrength;
  public float textureScale;
                      }
-
+*/
 [System.Serializable]
 public class TerrainType {
 	public string name;

@@ -357,43 +357,7 @@ MonoBehaviour:
       index: 1
   waterColor: {r: 0.2647059, g: 0.26977703, b: 1, a: 0}
   visualizationMode: 3
+  textureData: {fileID: 11400000, guid: 495eb7f5fa767488bad1d1ebb9b8c9e2, type: 2}
   tileMaterial: {fileID: 2100000, guid: 8a2a2ce00770441498443c2b4af20a46, type: 2}
-  layers:
-  - texture: {fileID: 2800000, guid: a51044dfe95257548b466bc35528b878, type: 3}
-    tint: {r: 0.4809184, g: 0.9811321, b: 0.041651815, a: 0}
-    tintStrength: 0.6
-    startHeight: 0.1
-    blendStrength: 0.54
-    textureScale: 20
-  - texture: {fileID: 2800000, guid: 46c9b2c471a59f24cbe88eae93a32f60, type: 3}
-    tint: {r: 0.26672295, g: 0.94509804, b: 0.0745098, a: 0}
-    tintStrength: 0.49
-    startHeight: 0.24
-    blendStrength: 0.14
-    textureScale: 15
-  - texture: {fileID: 2800000, guid: 3787ecf31b318914f908bb48537ebf10, type: 3}
-    tint: {r: 0.019357419, g: 0.8207547, b: 0.019357419, a: 0}
-    tintStrength: 0.26
-    startHeight: 0
-    blendStrength: 0.51
-    textureScale: 15
-  - texture: {fileID: 2800000, guid: eafd0beb9c624d34f812be7d14134c2f, type: 3}
-    tint: {r: 0.4433962, g: 0.24470451, b: 0.24470451, a: 0}
-    tintStrength: 0
-    startHeight: 0.5
-    blendStrength: 0.41
-    textureScale: 15
-  - texture: {fileID: 2800000, guid: 9015343c9bb2cf74083767e91127c98d, type: 3}
-    tint: {r: 0.06274474, g: 0.8867924, b: 0.1176812, a: 0}
-    tintStrength: 0
-    startHeight: 0.3
-    blendStrength: 0.253
-    textureScale: 15
-  - texture: {fileID: 2800000, guid: cd4f831376722b54bbadd59ef7c6c744, type: 3}
-    tint: {r: 0.9433962, g: 0.824819, b: 0.048949808, a: 0}
-    tintStrength: 0
-    startHeight: 1
-    blendStrength: 0.33
-    textureScale: 15
   minTerrainTextureHeight: 0
   maxTerrainTextureHeight: 1

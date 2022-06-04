@@ -4,6 +4,7 @@ Shader "Custom/TerrainShader"
     {
         testTexture("Texture", 2D) = "white"{}
         testScale("Scale", Float) = 1
+        
     }
     SubShader
     {
