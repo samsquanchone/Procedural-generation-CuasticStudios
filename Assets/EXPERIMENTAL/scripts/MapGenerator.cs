@@ -12,7 +12,8 @@ public class MapGenerator : MonoBehaviour
 
     public Noise.NormaliseMode normaliseMode;
 
-    public const int mapChunkSize = 239; // border taken account for here, so the + 2 offset will = 241
+   
+    public bool useFlatShading;
     public bool fallOff;
     [Range(0,6)]
     public int editorPreviewLevelOfDetail;
@@ -32,7 +33,7 @@ public class MapGenerator : MonoBehaviour
     public TerrainTypes[] terrainTypes;
 
     public bool autoUpdate;
-
+    static MapGenerator instance;
     float[,] fallOffMap;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
@@ -41,6 +42,24 @@ public class MapGenerator : MonoBehaviour
     private void Awake()
     {
         fallOffMap = FallOffGenerator.GenerateFallOffMap(mapChunkSize);
+    }
+    public static int mapChunkSize
+    {
+    get{
+       
+       if (instance == null)
+       {
+       instance = FindObjectOfType<MapGenerator>();
+       }
+        if(instance.useFlatShading)
+        {
+          return 95;
+        }
+        else
+        {
+          return 239;
+        }
+       }
     }
 
     public void DrawMapInEditor()
@@ -59,7 +78,7 @@ public class MapGenerator : MonoBehaviour
         }
         else if (drawMode == DrawMode.DrawMesh)
         {
-            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLevelOfDetail), TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
+            display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, editorPreviewLevelOfDetail, useFlatShading), TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
         }
         else if (drawMode == DrawMode.FallOff)
         {
@@ -100,7 +119,7 @@ public class MapGenerator : MonoBehaviour
 
     void MeshDataThread(MapData mapData, int lod, Action<MeshData> callback)
     {
-        MeshData meshData = MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, lod);
+        MeshData meshData = MeshGenerator.GenerateTerrainMesh(mapData.heightMap, meshHeightMultiplier, meshHeightCurve, lod, useFlatShading);
         lock (meshDataThreadInfoQueue)
         {
             meshDataThreadInfoQueue.Enqueue(new MapThreadInfo<MeshData>(callback, meshData));
