@@ -55,7 +55,7 @@ void UpdateVisibleChunks() {
     HashSet<Vector2> alreadyUpdatedChunkCoords = new HashSet<Vector2> ();
     for (int i = visibleTerrainChunks.Count-1; i >= 0; i--) {
         alreadyUpdatedChunkCoords.Add (visibleTerrainChunks [i].coord);
-        visibleTerrainChunks [i].UpdateTerrainChunk ();
+        visibleTerrainChunks [i].UpdateTerrainChunk ();            
     }
         
     int currentChunkCoordX = Mathf.RoundToInt (viewerPosition.x / chunkSize);
@@ -67,7 +67,7 @@ void UpdateVisibleChunks() {
             if (!alreadyUpdatedChunkCoords.Contains (viewedChunkCoord)) {
                 if (terrainChunkDictionary.ContainsKey (viewedChunkCoord)) {
                     terrainChunkDictionary [viewedChunkCoord].UpdateTerrainChunk ();
-                } else {
+                    } else {
                     terrainChunkDictionary.Add (viewedChunkCoord, new TerrainChunk (viewedChunkCoord, chunkSize, detailLevels, colliderLODIndex, transform, mapMaterial));
                 }
             }
@@ -97,6 +97,7 @@ public class TerrainChunk {
     int previousLODIndex = -1;
     bool hasSetCollider;
 
+
     public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, int colliderLODIndex, Transform parent, Material material) {
         this.coord = coord;
         this.detailLevels = detailLevels;
@@ -117,7 +118,7 @@ public class TerrainChunk {
         meshObject.transform.localScale = Vector3.one * mapGenerator.terrainData.uniformScale;
         SetVisible(false);
 
-        lodMeshes = new LODMesh[detailLevels.Length];
+            lodMeshes = new LODMesh[detailLevels.Length];
         for (int i = 0; i < detailLevels.Length; i++) {
             lodMeshes[i] = new LODMesh(detailLevels[i].lod);
             lodMeshes[i].updateCallback += UpdateTerrainChunk;
@@ -146,6 +147,8 @@ public class TerrainChunk {
             bool visible = viewerDstFromNearestEdge <= maxViewDst;
 
             if (visible) {
+
+
                 int lodIndex = 0;
 
                 for (int i = 0; i < detailLevels.Length - 1; i++) {
