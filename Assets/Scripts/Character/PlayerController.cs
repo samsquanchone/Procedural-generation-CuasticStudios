@@ -16,7 +16,7 @@ namespace RPG.Control
                 // needs to test if player clicks on resource (raycast same as before)
                 // take into account player skill for that type of resource to calculate damage
 
-            print("Nothing to do");
+            //print("Nothing to do");
         }
 
         private bool InteractCombat()

@@ -5,14 +5,14 @@ using UnityEngine.AI;
 
 public class NavMeshCollider : MonoBehaviour
 {
-    public bool generateNavMeshAtBuildTime = false;
+    public bool genNavMeshRuntime = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameObject.AddComponent<MeshCollider>();
+        //gameObject.AddComponent<MeshCollider>();
 
-        if(generateNavMeshAtBuildTime) gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
+        if(genNavMeshRuntime) gameObject.GetComponent<NavMeshSurface>().BuildNavMesh();
 
     }
 
