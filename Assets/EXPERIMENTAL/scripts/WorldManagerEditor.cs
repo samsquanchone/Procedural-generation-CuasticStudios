@@ -13,7 +13,11 @@ public class WorldManagerEditor : Editor
         WorldManager manager = (WorldManager)target;
         if (GUILayout.Button("Generate Trees"))
         {
-            manager.RaycastOnGrid();
+            manager.GenerateTrees();
+        }
+        if (GUILayout.Button("Spawn Player @ x:0, z:0"))
+        {
+            manager.SpawnPlayer();
         }
     }
 }

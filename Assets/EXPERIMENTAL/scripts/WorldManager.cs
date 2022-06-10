@@ -4,59 +4,84 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
+    // Player spawning stuff
+    [SerializeField] GameObject playerObj;
+    [SerializeField] int playerSpawnX = 0;
+    [SerializeField] int playerSpawnz = 0;
+
+    // Tree generator stuff
     [SerializeField] bool generateInEditor = false;
-
     [SerializeField] GameObject treeParent;
-    [SerializeField] GameObject tree;
+    [SerializeField] GameObject[] treePrefabs;
 
-    [SerializeField] int xSize = 20;
-    [SerializeField] int zSize = 20;
+    // Raycast Grid size -- Only used for tree generator so far
+    [SerializeField] int size = 20;
     [SerializeField] int incremant = 5;
     [SerializeField] float ySpawnOffset = 5f;
-    int yHeight = 500;
+
+    // Satic height for the world manager object *origin for raycast so kinda important
+    static int yHeight = 500;
 
     private void Start()
     {
-        if (!generateInEditor) RaycastOnGrid();
+        SpawnPlayer();
+        if (!generateInEditor) GenerateTrees();
     }
 
-    public void RaycastOnGrid()
+    public void GenerateTrees()
     {     
         
-        for (int i = 0, z = 0; z <= zSize; z = z + incremant)
+        for (int i = 0, z = 0; z <= size; z = z + incremant) // Basics for raycasting on a grid
         {
-            for (int x = 0; x <= xSize; x = x + incremant)
+            for (int x = 0; x <= size; x = x + incremant)
             {
-                transform.position = new Vector3(x, yHeight, z);
+                transform.position = new(x, yHeight, z);
                 RayCastFromPoint();
                 i++;
             }
         }
-
-
-
-        /*Verticies = new Vector3[] // Make one cell
-        {
-            new Vector3(0,0,0),
-            new Vector3(0,0,1),
-            new Vector3(1,0,0),
-            new Vector3(1,0,1)
-        };*/
     }
+
+    public void SpawnPlayer()
+    {
+        transform.position = new(playerSpawnX, yHeight, playerSpawnz);
+        RaycastHit hit;
+        bool hasHit = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f);
+        if (hasHit)
+        {
+            Vector3 spawnPoint = new(hit.point.x, hit.point.y, hit.point.z);
+            playerObj.transform.position = spawnPoint;
+            print("Player Spawned @ " + spawnPoint.ToString());
+        }
+        else
+        {
+            Debug.Log("Did not Hit");
+        }
+    }
+
     private void RayCastFromPoint()
     {
         RaycastHit hit;
         bool hasHit = Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, 1000f);
         if (hasHit)
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * hit.distance, Color.green);
-            Debug.Log("Did Hit");
-            Vector3 spawnPoint = new Vector3(hit.point.x, (hit.point.y + ySpawnOffset), hit.point.z);
-            Instantiate(tree, spawnPoint, transform.rotation, treeParent.transform);
+            int treeToUse = Random.Range(0, treePrefabs.Length);
+
+            // Adding 'noise' to the position
+            float xNoise = Random.Range(-1, 1);
+            float zNoise = Random.Range(-1, 1);
+            float xPostion = hit.point.x + xNoise;
+            float zPostion = hit.point.z + zNoise;
+
+            // Adding 'noise' to scale
+            float scaleNoise = Random.Range(1, 1.8f);
+            treePrefabs[treeToUse].transform.localScale = new(scaleNoise, scaleNoise, scaleNoise);
+
+            Vector3 spawnPoint = new Vector3(xPostion, (hit.point.y + ySpawnOffset), zPostion);
+            Instantiate(treePrefabs[treeToUse], spawnPoint, transform.rotation, treeParent.transform);
         }
         else
         {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.down) * 1000, Color.red);
             Debug.Log("Did not Hit");
         }
     }
